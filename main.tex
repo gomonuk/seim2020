@@ -30,27 +30,6 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
     \title{Интеграционный подход распознавания зашумленной русскоязычной речи}
 
-% \author{
-% \IEEEauthorblockN{Даниил Гомонюк}
-% \IEEEauthorblockA{\textit{Высшая школа программной инженерии} \\
-% \textit{Санкт-Петербургский Политехнический Университет}\\
-% Санкт-Петербург, Россия \\
-% dan.gomonuk@gmail.com}
-% \and
-% \IEEEauthorblockN{Игорь Никифоров}
-% \IEEEauthorblockA{
-% \textit{Высшая школа программной инженерии} \\
-%  \textit{Санкт-Петербургский Политехнический Университет}\\
-%  Санкт-Петербург, Россия \\
-% igor.nikiforovv@gmail.com}
-% \\
-% \IEEEauthorblockN{Дмитрий Дробинцев}
-% \IEEEauthorblockA{\textit{Высшая школа программной инженерии} \\
-% \textit{Санкт-Петербургский Политехнический Университет}\\
-% Санкт-Петербург, Россия \\
-% drobintsev\_df@spbstu.ru}
-% }
-
     \author{\IEEEauthorblockN{
         Даниил Гомонюк\IEEEauthorrefmark{1},
         Игорь Никифоров\IEEEauthorrefmark{2},
@@ -162,7 +141,7 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
     \section{Сравнительный анализ существующих реализаций систем автоматизированного распознавания речи}
 
-    \subsection{Метрики оценки систем автоматизированного распознавания речи}\label{AA}
+    \subsection{Метрики оценки систем автоматизированного распознавания речи}\label{WERSF}
 
     Корректная оценка результатов работы систем автоматизированного распознавания речи (англ. automatic system recognision, далее ASR системы),
     и как следствие возможность корректно сравнить разные ASR системы, имеет большое значение как для конечных пользователей,
@@ -183,6 +162,18 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 \subsection{Сравнительный анализ ASR по метрике WER}\label{AA}
 Проведём сравнительный анализ различных моделей для распознавания речи, по трём основным группам: гибридные СММ/ИНС модели, CTC-модели, модели, шифратор-дешифратор модели на основе механизма внимания. Возьмём только две лучше модели в каждой группе по показателю WER.
+
+Гибридные СММ/ИНС модели состоят из блока скрытых марковских моделей(СММ) определяющего наиболее вероятную последовательность фонем
+и блока искусственной нейронной сети(ИНС), которая вычисляет вероятность последовательности полученную от СММ.
+
+CTC (Connectionist Temporal Classification) позволяет моделям рекуррентных нейронных сетей обучаться без начального выпвынивания звковвой дрожки и трансрипции.
+
+Шифратор-дешифратор модели используются для задач, где длины входной и выходной последовательностей являются переменными.
+Шифратор это нейронная сеть, которая выделяет признаки из входного сигнала в промежуточное представление.
+Дешифратор это рекуррентная нейронная сеть, которая использует  промежуточное представление для генерации выходных последовательностей.
+
+Для сравнения моделей были использованы два набора англоязычных аудиозаписей WSJ(Nov’92)[7] и LibriSpeech[8].
+Оба этих набора являются стандартами для тестирования англоязычных ASR.
 
 Как можно увидеть из Таблицы 1. однозначными лидерами по показателю WER являются технологии Kaldi и Baidu. Далее мы будем использовать их реализации: vosk - реализацию Kaldi для русского языка и DeepSpeech - открытый проект компании Mozilla реализующий технологию Baidu.
 
@@ -218,7 +209,11 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 Полученные фразы должны быть сопоставлены, выявление наиболее вероятных вариантов фраз происходит по следующему алгоритму (описан для трех систем).
 
-Проверяем не состоит ли фраза из одного слова. Удаляем все пробельные символы и определяем является ли получившийся результат словом с заданным редакционным расстоянием. Если да, то обработку можно считать завершенной.
+\begin{itemize}
+\item проверяем не состоит ли фраза из одного слова;
+\item удаляем все пробельные символы и определяем является ли получившийся результат словом с заданным редакционным расстоянием;
+\item если предыдущий пункт врен, обработку можно считать завершенной.
+\end{itemize}
 
 Все три варианта фразы сортируются по следующим параметрам:
 
@@ -288,8 +283,8 @@ REST-API сервис реализует архитектуру приложен
 
 
 \subsection{Результаты}
-Результаты работы программной системы были оценены по показателям WER и SF для тестовой аудиозаписи, содержащей зашумленную русскую речь.
-Тестовая запись обладает следующими характеристиками:
+Результаты работы программной системы были оценены по показателям WER и SF, описанных в пункте \ref{WERSF}.
+Тестовые записи, взятые из набора русскоязычных аудио “open_stt”, обладают следующими характеристиками:
 
 \begin{itemize}
 \item 15 минут записи - 1400 слов;
@@ -318,8 +313,8 @@ REST-API сервис реализует архитектуру приложен
 \bibitem{b4} Марковников, Н. М., и И. С. Кипяткова. Аналитический обзор интегральных систем распознавания речи. Труды СПИИРАН, т. 3, вып. 58, June 2018, сс. 77-10, doi:10.15622/sp.58.4.
 \bibitem{b5} Карпов Алексей Анатольевич, Кипяткова Ирина Сергеевна. "Методология оценивания работы систем автоматического распознавания речи" Известия высших учебных заведений. Приборостроение, vol. 55, no. 11, 2012, pp. 38-43.
 \bibitem{b6} Прытков В.А. "Функция расстояния между строками на основе кусочно-постоянной модели" Доклады Белорусского государственного университета информатики и радиоэлектроники, no. 4 (74), 2013, pp. 22-28.
-\bibitem{b7} Comparing Speech Recognition Systems (Microsoft API, Google API And CMU Sphinx) Këpuska V, Bohouta G
-\bibitem{b8} Zaity B., Wannous H., Shaheen Z., Chernoruckiy I., Drobintsev P., Pak V. "A hybrid convolutional and recurrent network approach for conversational AI in spoken language understanding." (2019).
+\bibitem{b7} Paul, Douglas B. and Janet M. Baker. “The design for the wall street journal-based CSR corpus.” ICSLP (1992).
+\bibitem{b8} V. Panayotov, G. Chen, D. Povey and S. Khudanpur, "Librispeech: An ASR corpus based on public domain audio books," 2015 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), Brisbane, QLD, 2015, pp. 5206-5210.
 \bibitem{b9} Makovkin K.A. [Hybrid models – Hidden Markov Models/Multilayer perceptron and their application in speech recognition systems. Servey]. Rechevye tehnologii – Speech Technology. 2012. vol. 3. pp. 58–83. (In Russ.).
 \bibitem{b10} Markovnikov N.M., Kipyatkova I., Karpov A., Filchenkov A. Deep neural networks in Russian speech recognition. Proceedings of 2017 Artificial Intelligence and Natural Language Conference. 2017. pp. 54–67
 \bibitem{b11} Levenshtein V.I. Binary codes capable of correcting deletions, insertions, and reversals. Soviet physics. Doklady. 1996. vol. 10. pp. 707–710.
@@ -329,6 +324,9 @@ REST-API сервис реализует архитектуру приложен
 \bibitem{b15} LeCun Y., Bengio Y. Convolutional networks for images, speech, and time series. The handbook of brain theory and neural networks. 1995. vol. 3361. no. 10. pp. 1995.
 \bibitem{b16} Романенко А.Н., Матвеев Ю.Н., and Минкер В.. "Перенос знаний в задаче автоматического распознавания русской речи в телефонных переговорах" Научно-технический вестник информационных технологий, механики и оптики, vol. 18, no. 2, 2018, pp. 236-242.
 \bibitem{b17} Povey D. et al. The Kaldi speech recognition toolkit». IEEE 2011 workshop on automatic speech recognition and understanding. IEEE Signal Processing Society. 2011. 4 p.
+\bibitem{b18} Comparing Speech Recognition Systems (Microsoft API, Google API And CMU Sphinx) Këpuska V, Bohouta G
+\bibitem{b19} Zaity B., Wannous H., Shaheen Z., Chernoruckiy I., Drobintsev P., Pak V. "A hybrid convolutional and recurrent network approach for conversational AI in spoken language understanding." (2019).
+
 \end{thebibliography}
 \vspace{12pt}
 
