@@ -10,7 +10,7 @@
 
 \usepackage[T2A]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage[russian]{babel}
+\usepackage[english,russian]{babel}
 \usepackage{substitutefont}
 \usepackage{multicol,tabularx}
 
@@ -183,13 +183,11 @@ CTC (Connectionist Temporal Classification) позволяет моделям р
 
 \section{Интеграционный подход распознавания зашумленной речи}
 \subsection{Описание метода}
-Основными этапы предложенного подхода: проводится очистка аудиозаписи от шумов, после этого выполняется ее распознавание с помощью нескольких разных систем автоматического распознавания речи. Полученные результаты составят список наиболее вероятных гипотез (N-Best-List)[12], выбор из которых может произвести либо оператор-человек, либо система контекстного анализа.
-
-Суть интегрального метода заключается в попытке получить из аудиозаписи текст на основе семантики конкретного языка и звучании букв, из-за сложности и большого количества факторов, влияющих на успех, необходимы тысячи часов аудиозаписей.
+Основные этапы предложенного подхода: проводится очистка аудиозаписи от шумов, после этого выполняется ее распознавание с помощью нескольких разных систем автоматического распознавания речи. Полученные результаты составят список наиболее вероятных гипотез (N-Best-List)[12], выбор из которых может произвести либо оператор-человек, либо система контекстного анализа.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.4\textwidth]{./Diagram1.jpg}
+\includegraphics[width=0.375\textwidth]{./Diagram1.jpg}
 \caption{Cтруктурная схема предлагаемого подхода}
 \label{fig:Panel}
 \end{figure}
@@ -284,7 +282,7 @@ REST-API сервис реализует архитектуру приложен
 
 \subsection{Результаты}
 Результаты работы программной системы были оценены по показателям WER и SF, описанных в пункте \ref{WERSF}.
-Тестовые записи, взятые из набора русскоязычных аудио "open_stt", обладают следующими характеристиками:
+Тестовые записи, взятые из набора русскоязычных аудио open\_stt, обладают следующими характеристиками:
 
 \begin{itemize}
 \item 15 минут записи - 1400 слов;
@@ -330,5 +328,27 @@ REST-API сервис реализует архитектуру приложен
 \end{thebibliography}
 \vspace{12pt}
 
-\end{document}
 
+\begin{center}
+\textbf{Integration approach for automatic speech recognition of noisy Russian language}
+
+\IEEEauthorblockN{Daniil Gomonyuk, Igor Nikiforov, Dmitry Drobintsev}
+\IEEEauthorblockA{
+    \textit{Higher School of Software Engineering} \\
+    \textit{Peter the Great St. Petersburg Polytechnic University}\\
+    St. Petersburg, Russia \\
+}
+
+\end{center}
+
+\selectlanguage{english}
+\begin{abstract}
+The research considers methods for the automated conversion of audio recordings into a text data format, in other words, speech recognition. Particular emphasis is placed on the recognition of noisy Russian-language speech.
+
+The paper provides an overview of existing speech recognition methods which include end-to-end and modular methods. There is a review and comparative analysis of existing implementations of the methods and their metrics. Based on a comparative analysis, it is concluded that Mozilla DeepSpeech technology is the most powerful speech recognition tool.
+
+A distinctive feature of the work is the use of the combined recognition method, which allows to improve the recognition quality of noisy recordings. The end-to-end and modular methods are combined in single approach. The proposed approach is implemented in a software package for recognizing noisy Russian-language speech using Mozilla DeepSpeech technology. The results showing the effectiveness of the proposed end-to-end method are demonstrated.
+
+The developed software package can be used in companies engaged in technical support and call centers to improve the efficiency of processing customer requests.
+\end{abstract}
+\end{document}
